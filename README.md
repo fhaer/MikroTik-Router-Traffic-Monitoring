@@ -7,7 +7,7 @@ A MikroTik router can be configured to send traffic values with a script.
 In System -> Scripts a script needs to be placed to read traffic values from an interface (port) like ether1. 
 - create a new script with name "send-traffic" with "read" and "test" policy enabled
 - insert the contents of mikrotik-traffic-send-script.txt
-- change the ether1 to the interface where traffic is to be measured and the url to the location of your php script
+- change ether1 to the interface where traffic is to be measured and the url to the location of your php script
 
 In System -> Scheduler a schedule needs to be created to execute the script
 - Interval (e.g. every 10 minutes): 00:10:00
