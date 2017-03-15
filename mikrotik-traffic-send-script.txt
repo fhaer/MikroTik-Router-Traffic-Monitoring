@@ -1,0 +1,5 @@
+:local txbyte [/interface ethernet get ether1 value-name=driver-tx-byte]
+:local rxbyte [/interface ethernet get ether1 value-name=driver-rx-byte]
+:local ip [/ip address get [/ip address find interface=ether1] address]
+/tool fetch url=("https://example.com/mikrotik-traffic-status/traffic-receiver.php\?tx=$txbyte&rx=$rxbyte&ip=$ip") mode=https keep-result=no
+
