@@ -1,6 +1,23 @@
 # Traffic Monitoring for MikroTik Routers
 Monitors and stores the total amount of traffic on a MikroTik router interface using a web-server with sqlite, php and d3.js
 
+## MikroTik Script
+A MikroTik router can be configured to send traffic values with a script.
+
+In System -> Scripts a script needs to be placed to read traffic values from an interface (port) like ether1. 
+- create a new script with name "send-traffic" with "read" and "test" policy enabled
+- insert the contents of mikrotik-traffic-send-script.txt
+- change the ether1 to the interface where traffic is to be measured and the url to the location of your php script
+
+In System -> Scheduler a schedule needs to be created to execute the script
+- Interval (e.g. every 10 minutes): 00:10:00
+- On Event: send-traffic
+- Policies "read" and "test"
+
+Note that traffic count is restarted on reboot, so that a maximum of 10 minutes (as set in "Interval") of traffic can get lost.
+
+Tested with MikroTik hAP ac running RouterOS 6.37.
+
 ## Server-Setup
 HTTP(S) server setup to receive and store traffic values
 
@@ -28,24 +45,6 @@ traffic-monitor.html
 - calls traffic-aggregator.php 
 - shows a graph rendered in JavaScript using d3.js (file d3.v4.min.js - see https://d3js.org/)
 
-![alt tag](traffic-monitor.png)
-
 Note that it does make sense to obfuscate the names of the php scripts when using HTTPS.
 
-
-## MikroTik Script
-A MikroTik router can be configured to send traffic values with a script.
-
-In System -> Scripts a script needs to be placed to read traffic values from an interface (port) like ether1. 
-- create a new script with name "send-traffic" with "read" and "test" policy enabled
-- insert the contents of mikrotik-traffic-send-script.txt
-- change the ether1 to the interface where traffic is to be measured and the url to the location of your php script
-
-In System -> Scheduler a schedule needs to be created to execute the script
-- Interval (e.g. every 10 minutes): 00:10:00
-- On Event: send-traffic
-- Policies "read" and "test"
-
-Note that traffic count is restarted on reboot, so that a maximum of 10 minutes (as set in "Interval") of traffic can get lost.
-
-Tested with MikroTik hAP ac running RouterOS 6.37.
+![alt tag](traffic-monitor.png)
